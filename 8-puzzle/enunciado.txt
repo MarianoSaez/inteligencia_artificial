@@ -1,0 +1,17 @@
+Objetivos:
+(X) - Desordenar un puzzle con un numero n  de movimientos.
+        Ej.: 50 movimientos ~~
+
+(X) - Resolver el puzzle de forma aleatoria
+
+(X) - Resolver el puzzle con busqueda en anchura
+
+( ) - Resolver el puzzle con busqueda bidireccional
+
+( ) - Generalizar para tableros de NxN
+
+( ) - Guardar resultados a un archivo para la estadistica
+
+Adicional:
+Crear metodo move en puzzle
+Extraer responsabilidad de resolver el Puzzle fuera de la clase
