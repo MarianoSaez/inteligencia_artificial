@@ -14,6 +14,10 @@ class TreeNode:
             self.children.append(node)
             node.parent = self
 
+    def append_child(self, node: "TreeNode") -> None:
+        self.children.append(node)
+        node.parent = self
+
 def print_tree(root: TreeNode, lvl = 0):
     print(f"{'-'*lvl}> Node:{lvl} Value: \n{root.value}")
     if root.children != []:

@@ -6,7 +6,7 @@ Objetivos:
 
 (X) - Resolver el puzzle con busqueda en anchura
 
-( ) - Resolver el puzzle con busqueda bidireccional
+(X) - Resolver el puzzle con busqueda bidireccional
 
 ( ) - Generalizar para tableros de NxN
 
