@@ -153,16 +153,23 @@ class BidirectionalBFSSolver(BaseSolver):
                         return  path_obj[::-1] + path_scr
 
 if __name__ == "__main__":
-    puzz = Puzzle([[1, "O", 3], [4, 2, 6], [7, 5, 8]])
-    print(puzz.board)
+    puzz = Puzzle()
 
-    # print("MEZCLANDO...")
-    # puzz.mezclar(10)
+    print("MEZCLANDO...\n")
+    puzz.mezclar(50)
+    print(puzz.board)
+    
+    match input("[1] Random\n[2] Anchura\n[3] Bidireccional\nSeleccione metodo de resolucion [1, 2, 3]: "):
+        case "1":
+            s = RandomSolver()
+        case "2":
+            s = BFSSolver()
+        case "3":
+            s = BidirectionalBFSSolver()
 
     print("RESOLVIENDO...")
-    s = BidirectionalBFSSolver()
     solution = s.solve(puzz)
 
-    print("MOSTRANDO SOLUCION...")
+    print("MOSTRANDO SOLUCION...\n")
     [print(s) for s in solution]    
 

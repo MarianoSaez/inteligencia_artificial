@@ -8,9 +8,9 @@ Objetivos:
 
 (X) - Resolver el puzzle con busqueda bidireccional
 
-( ) - Generalizar para tableros de NxN
+(X) - Generalizar para tableros de NxN
 
-( ) - Guardar resultados a un archivo para la estadistica
+(X) - Guardar resultados a un archivo para la estadistica
 
 Adicional:
 Crear metodo move en puzzle
