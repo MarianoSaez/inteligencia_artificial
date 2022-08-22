@@ -8,7 +8,8 @@ from Solver import *
 SHUFFLE = 50
 SAMPLES = 100
 SIZES = range(3, 4)
-ALGORITHMS: list[BaseSolver] = [RandomSolver, BFSSolver, BidirectionalBFSSolver]
+ALGORITHMS = [RandomSolver, BFSSolver, BidirectionalBFSSolver]
+FILE = "stats.json"
 
 
 if __name__ == "__main__":
@@ -81,7 +82,7 @@ if __name__ == "__main__":
 
     # print(json.dumps(data, indent=4))
 
-    with open("stats.json", "w+") as f:
+    with open(FILE, "w+") as f:
         f.write(json.dumps(data, indent=4))
 
 
