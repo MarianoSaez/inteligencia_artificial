@@ -55,14 +55,14 @@ class BFSSolver(BaseSolver):
                         if next_puzzle.is_sorted:
                             solution_path = []
                             curr_node.goto_root(solution_path)
-                            return [Puzzle().board] + solution_path
+                            return [Puzzle(size=puzzle.size).board] + solution_path
                     
             curr_puzzles = next_puzzles
             curr_nodes = next_nodes
 
 class BidirectionalBFSSolver(BaseSolver):
     def solve(self, puzzle: Puzzle) -> list[str]:
-        curr_puzzles_obj: list[Puzzle] = [ Puzzle() ]
+        curr_puzzles_obj: list[Puzzle] = [ Puzzle(size=puzzle.size) ]
         curr_puzzles_scr: list[Puzzle] = [ deepcopy(puzzle) ]
 
         curr_nodes_obj: list[TreeNode] = [ TreeNode(curr_puzzles_obj[0]) ]
@@ -101,7 +101,19 @@ class BidirectionalBFSSolver(BaseSolver):
 
             curr_puzzles_obj = next_puzzles_obj
             curr_nodes_obj = next_nodes_obj
-            
+
+            # Intentar mejorar este algo. de busqueda
+            for node_obj in curr_nodes_obj:
+                for node_scr in curr_nodes_scr:
+                    if node_obj.value.board == node_scr.value.board:
+                        path_obj = []
+                        path_scr = []
+
+                        node_obj.goto_root(path_obj)
+                        node_scr.goto_root(path_scr)
+
+                        return  path_obj[::-1] + path_scr    
+     
             # Generar arbol desde el mezclado
             for h in range(len(curr_puzzles_scr)):
 
@@ -141,14 +153,13 @@ class BidirectionalBFSSolver(BaseSolver):
                         return  path_obj[::-1] + path_scr
 
 if __name__ == "__main__":
-    puzz = Puzzle()
+    puzz = Puzzle([[1, "O", 3], [4, 2, 6], [7, 5, 8]])
+    print(puzz.board)
 
-    print("MEZCLANDO...")
-    puzz.mezclar(10_000)
+    # print("MEZCLANDO...")
+    # puzz.mezclar(10)
 
     print("RESOLVIENDO...")
-
-    # Test de solvers
     s = BidirectionalBFSSolver()
     solution = s.solve(puzz)
 

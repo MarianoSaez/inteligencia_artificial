@@ -1,8 +1,5 @@
 from secrets import choice
 from Board import Board
-from copy import deepcopy
-
-from Tree import TreeNode, print_tree
 
 """
 MOVES:
@@ -15,8 +12,9 @@ MAXMOVES = 100_000_000
 
 class Puzzle():
     def __init__(self, board: Board = None, size: int = 3) -> None:
-        self.board = board
         self.size = size
+        self.board = board
+        self.sorted_state = None
         self.prev_pos = None
 
     def __getcurrent__(self) -> list[int, int]:
@@ -65,19 +63,25 @@ class Puzzle():
             self.move_rnd()
 
     @property
-    def is_sorted(self):
-        return Board([[1, 2, 3], [4, 5, 6], [7, 8, "O"]]) == self.board
-
-    @property
     def board(self):
         return self.__board
     
     @board.setter
     def board(self, val):
         if val is None:
-            self.__board = Board([[1, 2, 3], [4, 5, 6], [7, 8, "O"]])
+            c = [[j for j in range(self.size*i + 1, self.size*i + 1 + self.size)] for i in range(self.size)]
+            c[self.size - 1][self.size - 1] = "O"
+            self.__board = Board(c)
         else:
-            self.__board = val
+            self.__board = Board(val)
+
+    @property
+    def is_sorted(self):
+        if self.sorted_state is None:
+            c = [[j for j in range(self.size*i + 1, self.size*i + 1 + self.size)] for i in range(self.size)]
+            c[self.size - 1][self.size - 1] = "O"
+            self.sorted_state = Board(c)
+        return self.sorted_state == self.board
 
     def __str__(self) -> str:
         return self.board.__str__()
@@ -88,5 +92,3 @@ if __name__ == "__main__":
     p = Puzzle()
     p.mezclar(1000)
     print(p.board)
-    sol = p.solve_bidireccional()
-    [print(s) for s in sol]
