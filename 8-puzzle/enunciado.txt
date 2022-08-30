@@ -15,3 +15,7 @@ Objetivos:
 Adicional:
 Crear metodo move en puzzle
 Extraer responsabilidad de resolver el Puzzle fuera de la clase
+
+[[0, 3, 8],
+[1, 7, 6],
+[4, 2, 5]]

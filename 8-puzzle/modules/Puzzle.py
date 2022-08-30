@@ -46,7 +46,6 @@ class Puzzle():
         """
         moves = self.__getmoves__()
         curr = self.__getcurrent__()
-        self.prev_pos = curr
         next = choice(moves)
         
         self.board[curr[0]][curr[1]] = self.board[next[0]][next[1]]

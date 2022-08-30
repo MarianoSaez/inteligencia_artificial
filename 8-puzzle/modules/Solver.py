@@ -152,12 +152,13 @@ class BidirectionalBFSSolver(BaseSolver):
 
                         return  path_obj[::-1] + path_scr
 
-if __name__ == "__main__":
+if __name__ == "__main__":  
     puzz = Puzzle()
 
     print("MEZCLANDO...\n")
-    puzz.mezclar(50)
+    puzz.mezclar(10)
     print(puzz.board)
+    print(list(puzz.board))
     
     match input("[1] Random\n[2] Anchura\n[3] Bidireccional\nSeleccione metodo de resolucion [1, 2, 3]: "):
         case "1":
@@ -171,5 +172,6 @@ if __name__ == "__main__":
     solution = s.solve(puzz)
 
     print("MOSTRANDO SOLUCION...\n")
-    [print(s) for s in solution]    
+    [print(s) for s in solution]
+    print("\nMovimientos: ", len(solution))
 
