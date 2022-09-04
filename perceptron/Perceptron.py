@@ -43,17 +43,29 @@ from random import uniform
 from statistics import mean
 
 # OR
-TRUTH_TABLE = [
+OR_TRUTH_TABLE = [
     [0, 0, 0],
     [1, 0, 1],
     [0, 1, 1],
     [1, 1, 1],
 ]
 
+AND_TRUTH_TABLE = [
+    [0, 0, 0],
+    [1, 0, 0],
+    [0, 1, 0],
+    [1, 1, 1],
+]
+
+XOR_TRUTH_TABLE = [
+    [0, 0, 0],
+    [1, 0, 1],
+    [0, 1, 1],
+    [1, 1, 0],
+]
+
 # Euler number
 e = 2.7182818284
-
-TRAINING_DATA = TRUTH_TABLE
 
 class Perceptron:
     """
@@ -99,7 +111,7 @@ class Trainer:
         for _ in range(1_000_000):
             p.train(training_set)
 
-            # Promedio de errores absolutos
+            # Promedio de errores relativos
             curr_err = mean([abs(x[-1] - p.run(x)) for x in training_set])
 
             if curr_err <= err:
@@ -111,7 +123,9 @@ if __name__ == "__main__":
     p = Perceptron(2)
     t = Trainer()
 
-    t.error_based_train(p, TRUTH_TABLE, 0.1)
+    t.error_based_train(p, OR_TRUTH_TABLE, 0.1)
+    t.error_based_train(p, AND_TRUTH_TABLE, 0.1)
+    t.error_based_train(p, XOR_TRUTH_TABLE, 0.1)
 
     # print(f"{p.weights=}")
     # p.train(TRAINING_DATA)
