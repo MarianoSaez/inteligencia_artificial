@@ -41,6 +41,7 @@ Referencias:
 
 from random import uniform
 from statistics import mean
+from math import exp
 
 # OR
 OR_TRUTH_TABLE = [
@@ -50,6 +51,7 @@ OR_TRUTH_TABLE = [
     [1, 1, 1],
 ]
 
+# AND
 AND_TRUTH_TABLE = [
     [0, 0, 0],
     [1, 0, 0],
@@ -57,6 +59,7 @@ AND_TRUTH_TABLE = [
     [1, 1, 1],
 ]
 
+# XOR
 XOR_TRUTH_TABLE = [
     [0, 0, 0],
     [1, 0, 1],
@@ -64,8 +67,6 @@ XOR_TRUTH_TABLE = [
     [1, 1, 0],
 ]
 
-# Euler number
-e = 2.7182818284
 
 class Perceptron:
     """
@@ -84,7 +85,7 @@ class Perceptron:
         x = sum([i*w for w, i in zip(self.weights, input)])
 
         # Pasarlo por la fc. de activacion y devolver resultado
-        return 1/(1+e**(-x))
+        return 1/(1+exp(-x))
     
     def train(self, training_data: list[list]) -> None:
         for t_input in training_data:
@@ -124,11 +125,12 @@ if __name__ == "__main__":
     t = Trainer()
 
     t.error_based_train(p, OR_TRUTH_TABLE, 0.1)
+    print(f"{p.weights=}\n")
     t.error_based_train(p, AND_TRUTH_TABLE, 0.1)
-    t.error_based_train(p, XOR_TRUTH_TABLE, 0.1)
+    print(f"{p.weights=}\n")
 
-    # print(f"{p.weights=}")
-    # p.train(TRAINING_DATA)
-    # print(f"{p.weights=}")
-    # print(f"{p.run([0, 0])=}")
+    # No funciona
+    # t.error_based_train(p, XOR_TRUTH_TABLE, 0.1)
+    # print(f"{p.weights=}\n")
+
 
