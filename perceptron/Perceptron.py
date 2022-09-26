@@ -38,10 +38,14 @@ Referencias:
     - https://zaguan.unizar.es/record/69205/files/TAZ-TFG-2018-148.pdf
 
 """
-
+# Std. Lib. imports
 from random import uniform
 from statistics import mean
 from math import exp
+
+# Plotting libs
+import matplotlib.pyplot as plot
+import numpy as np
 
 # OR
 OR_TRUTH_TABLE = [
@@ -74,6 +78,7 @@ class Perceptron:
     aprendizaje (Learning rate) fija.
     """
     def __init__(self, no_of_inputs) -> None:
+        # self.weights: list[float] = [0.9, 0.66, -0.2]
         self.weights: list[float] = [uniform(-1, 1) for i in range(no_of_inputs + 1)]
         self.learning_rate = 0.1
 
@@ -109,13 +114,40 @@ class Trainer:
         hasta alcanzar un error promedio menor o igual a err. Retorna el
         perceptron entrenado y su error promedio.
         """
+        err_set: list[tuple] = []
+        weight_set: list[tuple] = []
         for _ in range(1_000_000):
             p.train(training_set)
+            weight_set += [p.weights.copy()]
 
             # Promedio de errores relativos
-            curr_err = mean([abs(x[-1] - p.run(x)) for x in training_set])
+            curr_err = max([abs(x[-1] - p.run(x)) for x in training_set])
+            err_set += [[x[-1] - p.run(x) for x in training_set]]
+
+
+            # Graficar pesos
+
 
             if curr_err <= err:
+                x = [i for i in range(len(err_set))]
+
+                # Graficar errores
+                e0 = [e[0] for e in err_set]
+                e1 = [e[1] for e in err_set]
+                e2 = [e[2] for e in err_set]
+                e3 = [e[3] for e in err_set]
+
+                plot.plot(x, e0, x, e1, x, e2, x, e3)
+                plot.show()
+
+                print(weight_set)
+
+                w0 = [w[0] for w in weight_set]
+                w1 = [w[1] for w in weight_set]
+                w2 = [w[2] for w in weight_set]
+                plot.plot(x, w0, x, w1, x, w2)
+                plot.show()
+
                 print(f"Entrenado despues de {_} iteraciones. Error alcanzado: {curr_err}")
                 return p, curr_err
 
