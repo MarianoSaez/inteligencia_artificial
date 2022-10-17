@@ -8,9 +8,9 @@ class Perceptron:
     aprendizaje (Learning rate) fija.
     """
 
-    def __init__(self, no_of_inputs: int = 0, weights: list[float] = []) -> None:
+    def __init__(self, no_of_inputs: int = 0, weights: list[float] = [], LR: float = 0.1) -> None:
         self.weights: list[float] = weights# or [uniform(-1, 1) for i in range(no_of_inputs + 1)]
-        self.learning_rate = 0.1
+        self.learning_rate = LR
         self.last_input = []
         self.last_output = None
 
@@ -30,14 +30,19 @@ class Perceptron:
         for t_input in training_data:
             z = self.run(t_input[:-1])
             y = t_input[-1]
-            X = self.last_input         
+            X = self.last_input
             
             for i, weight in enumerate(self.weights):
-                error = y - z
-                self.weights[i] += self.learning_rate * error * X[i]
+                delta = (z)*(1 - z)
+                self.weights[i] += self.learning_rate * delta * X[i]
+
+    def learn(self, dw_list: list[float]) -> list[float]:
+        self.weights = [dw + w for dw, w in zip(dw_list, self.weights)]
+        return self.weights
+
 
     def __str__(self) -> str:
-        return f"Perceptron( weights = {self.weights} )"
+        return f"Perceptron( weights = {[round(w, 5) for w in self.weights]} )\n\tI: {self.last_input}\n\tO: {self.last_output}\n"
 
 if __name__ == "__main__":
     w1 = [0.9, 0.7, 0.5]
@@ -59,7 +64,7 @@ if __name__ == "__main__":
         w3,
     ]
     input_layer = [Perceptron(2, w) for w in input_layer_w]
-    input_layer_results = [p.run([0, 1]) for p in input_layer]
+    input_layer_results = [p.run([0, 0]) for p in input_layer]
     print(input_layer_results)
 
 
