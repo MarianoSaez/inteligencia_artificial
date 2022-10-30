@@ -35,14 +35,17 @@ if __name__ == "__main__":
     # Leer imagenes
     print("CARGANDO IMAGENES")
     img_list = []
+    path_list = []
     for gesture, person in zip(IMG_RANGE, PERSON_RANGE):
-        print(f"CARGANDO: {BASE_PATH}{gesture}{person}59161.{EXTENTION}")
-        flat_img = cv2.imread(f"{BASE_PATH}{gesture}{person}59161.{EXTENTION}", 0).flatten()/255
+        path = f"{BASE_PATH}{gesture}{person}59161.{EXTENTION}"
+        print(f"CARGANDO: {path}")
+        flat_img = cv2.imread(path, 0).flatten()/255
         if person == "A":
             np.append(flat_img, [0])
         else:
             np.append(flat_img, [1])
         img_list.append(flat_img)
+        path_list.append(path)
 
     # Instanciar y entrenar MLP
     print("CREANDO RED NEURONAL")
@@ -62,7 +65,7 @@ if __name__ == "__main__":
 
     # Mostrar graficas de errores
     g = Grapher()
-    g.graph(global_err_hist, "error ", save=SAVE_PATH + f"LR{LR}_HLP{HIDDEN_LAYER_PERCEPTRONS}_{HIDDEN_LAYERS}HL_ITER{ITERACIONES}_ID_{randint(0, 1_000_000)}.png")
+    g.graph(global_err_hist, path_list, save=SAVE_PATH + f"LR{LR}_HLP{HIDDEN_LAYER_PERCEPTRONS}_{HIDDEN_LAYERS}HL_ITER{ITERACIONES}_ID_{randint(0, 1_000_000)}.png")
 
     # Ejecutar
     for test_img in TEST_IMAGES:

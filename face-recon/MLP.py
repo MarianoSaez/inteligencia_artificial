@@ -1,6 +1,7 @@
 from random import uniform
 from Perceptron import Perceptron
 import matplotlib.pyplot as plot
+from ImageHandler import HandlerLineImage
 
 
 LR = 0.5
@@ -113,14 +114,21 @@ class MLP:
         return s
 
 class Grapher:
-    def graph(self, histogram: dict, label: str = "val", save: str = None) -> None:
+    def graph(self, histogram: dict, label_img: list[str], save: str = None) -> None:
         values = list(histogram.values())
         x = range(len(values[0]))
 
-        for i, v in enumerate(values):
-            plot.plot(x, v, label=f"{label}{i}")
+        plot.figure(figsize=(10, 20))
+        lines = [plot.plot(x, v)[0] for i, v in enumerate(values)]
+        empty_labels = ["" for i in lines]
+        handler_list = [HandlerLineImage(i) for i in label_img]
+        handler_map = dict(zip(lines, handler_list))
+
         plot.title(save)
-        plot.legend()
+        plot.legend(lines, empty_labels,
+            handler_map=handler_map, 
+            handlelength=1.5, labelspacing=0.0, fontsize=48, borderpad=0.15, loc=2, 
+            handletextpad=0.2, borderaxespad=0.15)
 
         # Save if requested
         if save is not None:
