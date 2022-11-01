@@ -118,7 +118,7 @@ class Grapher:
         values = list(histogram.values())
         x = range(len(values[0]))
 
-        plot.figure(figsize=(10, 20))
+        plot.figure(figsize=(15, 10))
         lines = [plot.plot(x, v)[0] for i, v in enumerate(values)]
         empty_labels = ["" for i in lines]
         handler_list = [HandlerLineImage(i) for i in label_img]
