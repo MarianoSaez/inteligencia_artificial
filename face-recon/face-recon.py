@@ -52,9 +52,10 @@ if __name__ == "__main__":
         print(f"CARGANDO: {path}")
         flat_img = cv2.imread(path, 0).flatten()/255
         if person == "A":
-            np.append(flat_img, [0])
+            flat_img = np.append(flat_img, [0])
         else:
-            np.append(flat_img, [1])
+            flat_img = np.append(flat_img, [1])
+
         img_list.append(flat_img)
         path_list.append(path)
 
@@ -81,7 +82,7 @@ if __name__ == "__main__":
                     runtime_test_hist[str(flat_img)] = []
                 runtime_test_hist[str(flat_img)] += [r]
 
-            if i%RUNTIME_PLOT_STEP == 0:
+            if (i+1)%RUNTIME_PLOT_STEP==0:
                 def task():
                     g = Grapher()
                     g.graph(runtime_test_hist, test_path_list)

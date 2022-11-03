@@ -1,8 +1,6 @@
 from random import uniform
 from Perceptron import Perceptron
-import matplotlib.pyplot as plot
-from ImageHandler import HandlerLineImage
-
+import numpy as np
 
 LR = 0.5
 ITERACIONES = 10_000
@@ -55,7 +53,7 @@ class MLP:
     def run(self, inputs: list[int]) -> list[int|float]:
         layer_inputs = inputs
         for layer in self.layers:
-            layer_inputs = [p.run(layer_inputs) for p in layer]
+            layer_inputs = np.array([p.run(layer_inputs) for p in layer])
         return layer_inputs
 
     def train(self, table: list[list[int]]) -> tuple[dict[str, list[float]], dict[str, list[float]]]:
@@ -69,7 +67,7 @@ class MLP:
 
         for r, row in enumerate(table):
             # Cargar el MLP de inputs y outputs en cada perceptron
-            self.run(row)
+            self.run(row[:-1])
             for i, layer in enumerate(reversed(self.layers)):
                 for j, perceptron in enumerate(layer):
                     z = perceptron.last_output
@@ -113,40 +111,17 @@ class MLP:
             s += "\n"
         return s
 
-class Grapher:
-    def graph(self, histogram: dict, label_img: list[str], save: str = None) -> None:
-        values = list(histogram.values())
-        x = range(len(values[0]))
-
-        plot.figure(figsize=(15, 10))
-        lines = [plot.plot(x, v)[0] for i, v in enumerate(values)]
-        empty_labels = ["" for i in lines]
-        handler_list = [HandlerLineImage(i) for i in label_img]
-        handler_map = dict(zip(lines, handler_list))
-
-        plot.title(save)
-        plot.legend(lines, empty_labels,
-            handler_map=handler_map, 
-            handlelength=1.5, labelspacing=0.0, fontsize=48, borderpad=0.15, loc=2, 
-            handletextpad=0.2, borderaxespad=0.15)
-
-        # Save if requested
-        if save is not None:
-            plot.savefig(save, bbox_inches="tight")
-
-        plot.show()
-
 
 if __name__ == "__main__":
-    n = MLP(weights=EJEMPLO_PESOS, learning_rate=LR)
-    # n = MLP(2, [2, 1], learning_rate=LR)
+    # n = MLP(weights=EJEMPLO_PESOS, learning_rate=LR)
+    n = MLP(2, [2, 1], learning_rate=LR)
     # print(n)
     w_hist, err_hist = n.train(TABLA_XOR*ITERACIONES)
-    # print(n.run([0, 1]))
+    print(n.run([0, 1]))
 
-    g = Grapher()
-    g.graph(err_hist, "err")
-    g.graph(w_hist, "w")
+    # g = Grapher()
+    # g.graph(err_hist, "err")
+    # g.graph(w_hist, "w")
 
     # xerr = range(ITERACIONES)
     # for i, err in enumerate(err_hist.values()):

@@ -1,5 +1,6 @@
 from random import uniform
 from math import exp
+import numpy as np
 
 
 class Perceptron:
@@ -16,11 +17,12 @@ class Perceptron:
 
     def run(self, input: list[int]) -> float:
         # Agregar el bias en las entradas
-        input = [1] + input
+        input = np.append(input, [1])
         self.last_input = input
 
         # Producto escalar entre vector de entradas y pesos
-        x = sum([i*w for w, i in zip(self.weights, input)])
+        # x = sum([i*w for w, i in zip(self.weights, input)]) # Python way
+        x = np.dot(input, self.weights) # Numpy way
 
         # Pasarlo por la fc. de activacion y devolver resultado
         self.last_output = 1/(1+exp(-x))
